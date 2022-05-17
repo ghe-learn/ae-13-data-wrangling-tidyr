@@ -1,0 +1,131 @@
+---
+title: "Untitled"
+format: html
+editor: source
+editor_options: 
+  chunk_output_type: console
+---
+
+
+```{r}
+library(tidyverse)
+library(lubridate)
+```
+
+
+# (Atomic) Vectors
+
+Atomic vectors, of which there are six types: logical, integer, double, character, complex, and raw. 
+
+Integer and double vectors are collectively known as numeric vectors.
+
+- lgl: logical
+- int: integer
+- dbl: double
+- chr: character
+
+```{r}
+
+glimpse(starwars)
+
+```
+
+## Types of atomic vectors
+
+```{r}
+
+vector_lgl <- c(TRUE, TRUE, FALSE)
+typeof(vector_lgl)
+
+vector_chr <- c("large", "small", "medium")
+typeof(vector_chr)
+
+vector_dbl <- c(192, 118.5, 162.5)
+typeof(vector_dbl)
+
+vector_int <- c(1L, 3L, 6L, 6L)
+typeof(vector_int)
+
+```
+
+## Explicit vector coercion
+
+```{r}
+
+vector_num <- as.numeric(vector_lgl)
+typeof(vector_num) 
+
+vector_fct <- factor(vector_chr, levels = c("small", "medium", "large"))
+
+```
+
+## Augmented vectors 
+
+Vectors can also contain arbitrary additional metadata in the form of attributes. These attributes are used to create augmented vectors which build on additional behaviour. There are three important types of augmented vector:
+
+- Factors are built on top of integer vectors.
+- Dates and date-times are built on top of numeric vectors.
+- Data frames and tibbles are built on top of lists.
+
+```{r}
+
+typeof(vector_fct)
+attributes(vector_fct)
+
+vector_date_chr <- "19.05.2022"
+
+typeof(date_chr)
+
+vector_date_date <- lubridate::dmy(vector_date_chr)
+
+typeof(vector_date_date)
+
+as.double(vector_date_date)
+
+attributes(vector_date_date)
+
+lubridate::as_date("1970-01-03") %>% 
+  as.double()
+
+tib_data <- tibble(
+  vector_chr,
+  vector_fct,
+  vector_dbl,
+  vector_date_date,
+) 
+
+tib_data %>% 
+  mutate(month = month(vector_date_date, 
+                       label = TRUE, 
+                       abbr = FALSE, 
+                       locale = "de_CH.UTF-8"))
+
+```
+
+
+https://github.com/rbtl-fs22/ae-12-data-wrangling-dplyr-oda-vigen/blob/3b6cb11fd4ddcef9d78e32435906064793168340/ae-12b-dplyr.qmd#L138
+
+
+## Data tidying
+
+```{r}
+
+# Data source: https://github.com/rbtl-fs22/research-project-template-disposa-liz/blob/main/data/raw_data/rbtl_fs22_waste_composition_bellevue.csv
+
+waste_data <- read_csv("data/waste-characterisation-disposa-liz.csv")
+
+```
+
+```{r}
+
+waste_data %>% 
+  select(number, starts_with("weight")) %>% 
+  rename_with(~str_remove(.x, "weight_")) %>% 
+  select(-total)
+
+```
+
+- separate()
+- drop_na()
+- replace_na()
+- fill()
