@@ -4,6 +4,7 @@ format: html
 editor: source
 editor_options: 
   chunk_output_type: console
+bibliography: references.bib
 ---
 
 
@@ -71,6 +72,7 @@ Vectors can also contain arbitrary additional metadata in the form of attributes
 
 typeof(vector_fct)
 attributes(vector_fct)
+as.integer(vector_fct)
 
 vector_date_chr <- "19.05.2022"
 
@@ -102,11 +104,7 @@ tib_data %>%
 
 ```
 
-
-https://github.com/rbtl-fs22/ae-12-data-wrangling-dplyr-oda-vigen/blob/3b6cb11fd4ddcef9d78e32435906064793168340/ae-12b-dplyr.qmd#L138
-
-
-## Data tidying
+# Data tidying
 
 ```{r}
 
@@ -116,12 +114,17 @@ waste_data <- read_csv("data/waste-characterisation-disposa-liz.csv")
 
 ```
 
+### tidyr::pivot_longer()
+
 ```{r}
 
-waste_data %>% 
+waste_data_long <- waste_data %>% 
   select(number, starts_with("weight")) %>% 
   rename_with(~str_remove(.x, "weight_")) %>% 
-  select(-total)
+  select(-total) %>% 
+  pivot_longer(cols = !number,
+              names_to = "waste_category",
+              values_to = "weight")
 
 ```
 
@@ -129,3 +132,72 @@ waste_data %>%
 - drop_na()
 - replace_na()
 - fill()
+
+## Gapminder
+
+The following exercise is taken from @naupaka_zimmerman_2019_3265164. 
+
+```{r}
+
+library(gapminder)
+
+gapminder_wide <- read_csv("https://raw.githubusercontent.com/swcarpentry/r-novice-gapminder/main/data/gapminder_wide.csv")
+
+```
+
+```{r}
+gapminder
+
+gapminder_wide 
+glimpse(gapminder_wide)
+```
+
+
+```{r}
+
+gapminder_wide %>% 
+  pivot_longer(cols = gdpPercap_1952:pop_2007,
+               names_to = "obstype_year",
+               values_to = "obs_value") 
+
+# can we calculate the mean life expectancy per country and year?
+
+# Now obstype_year actually contains 2 pieces of information, the observation 
+# type (pop,lifeExp, or gdpPercap) and the year. We can use the separate() 
+# function to split the character strings into multiple variables
+
+gapminder_long <- gapminder_wide %>% 
+  pivot_longer(cols = gdpPercap_1952:pop_2007,
+               names_to = "obstype_year",
+               values_to = "obs_value") %>% 
+  separate(col = obstype_year, into = c("obs_type", "year"), sep = "_") %>% 
+  mutate(year = as.integer(year))
+
+```
+
+**Your turn**
+
+Using `gapminder_long`, calculate the mean life expectancy, population, and gdpPercap for each continent. **Hint:** use the `group_by()` and `summarize()` functions we learned in the `dplyr` lesson.
+
+```{r}
+
+gapminder_long %>% 
+  group_by(continent, obs_type) %>% 
+  summarise(means = mean(obs_value))
+
+```
+
+```{r}
+
+gapminder_normal <- gapminder_long %>% 
+  pivot_wider(names_from = obs_type,
+              values_from = obs_value) %>% 
+  select(country, continent, year, lifeExp, pop, gdpPercap) %>% 
+  arrange(country, year)
+
+all.equal(gapminder, gapminder_normal)
+
+```
+
+# Reference
+
