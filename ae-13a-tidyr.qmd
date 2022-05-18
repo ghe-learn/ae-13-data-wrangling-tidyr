@@ -1,12 +1,15 @@
 ---
-title: "Untitled"
+title: "Application Exercise 13 - Data wrangling with tidyr"
 format: html
 editor: source
 editor_options: 
   chunk_output_type: console
 bibliography: references.bib
+execute:
+  echo: true
+  warning: false
+  message: false
 ---
-
 
 ```{r}
 library(tidyverse)
@@ -14,7 +17,7 @@ library(lubridate)
 ```
 
 
-# (Atomic) Vectors
+# Part 1: (Atomic) Vectors
 
 Atomic vectors, of which there are six types: logical, integer, double, character, complex, and raw. 
 
@@ -96,6 +99,8 @@ tib_data <- tibble(
   vector_date_date,
 ) 
 
+typeof(tib_data)
+
 tib_data %>% 
   mutate(month = month(vector_date_date, 
                        label = TRUE, 
@@ -104,7 +109,7 @@ tib_data %>%
 
 ```
 
-# Data tidying
+# Part 2: tidyr R Package 
 
 ```{r}
 
@@ -114,7 +119,9 @@ waste_data <- read_csv("data/waste-characterisation-disposa-liz.csv")
 
 ```
 
-### tidyr::pivot_longer()
+## Example: Waste characterisation data
+
+The data for this exercise is taken from: https://github.com/rbtl-fs22/research-project-template-disposa-liz
 
 ```{r}
 
@@ -128,12 +135,7 @@ waste_data_long <- waste_data %>%
 
 ```
 
-- separate()
-- drop_na()
-- replace_na()
-- fill()
-
-## Gapminder
+## Example: Gapminder
 
 The following exercise is taken from @naupaka_zimmerman_2019_3265164. 
 
@@ -150,8 +152,10 @@ gapminder
 
 gapminder_wide 
 glimpse(gapminder_wide)
+
 ```
 
+### From wide to long
 
 ```{r}
 
@@ -183,9 +187,21 @@ Using `gapminder_long`, calculate the mean life expectancy, population, and gdpP
 
 gapminder_long %>% 
   group_by(continent, obs_type) %>% 
-  summarise(means = mean(obs_value))
+  summarise(means = mean(obs_value)) 
+
+# Want a readable table? Back to wide
+
+gapminder_long %>% 
+  group_by(continent, obs_type) %>% 
+  summarise(means = mean(obs_value)) %>% 
+  pivot_wider(names_from = obs_type,
+              values_from = means) %>% 
+  knitr::kable(digits = 1)
+
 
 ```
+
+### From long to intermediate format
 
 ```{r}
 
@@ -196,6 +212,32 @@ gapminder_normal <- gapminder_long %>%
   arrange(country, year)
 
 all.equal(gapminder, gapminder_normal)
+
+```
+
+# Part 3: Working with multiple dataframes
+
+```{r}
+
+band_members 
+band_instruments
+band_instruments2
+
+band_members %>% inner_join(band_instruments)
+band_members %>% left_join(band_instruments)
+band_members %>% right_join(band_instruments)
+band_members %>% full_join(band_instruments)
+
+# To suppress the message about joining variables, supply `by`
+band_members %>% inner_join(band_instruments, by = "name")
+# This is good practice in production code
+
+# Use a named `by` if the join variables have different names
+band_members %>% full_join(band_instruments2, by = c("name" = "artist"))
+# By default, the join keys from `x` and `y` are coalesced in the output; use
+# `keep = TRUE` to keep the join keys from both `x` and `y`
+band_members %>%
+  full_join(band_instruments2, by = c("name" = "artist"), keep = TRUE)
 
 ```
 
