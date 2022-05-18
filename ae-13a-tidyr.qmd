@@ -1,12 +1,15 @@
 ---
-title: "Untitled"
+title: "Application Exercise 13 - Data wrangling with tidyr"
 format: html
 editor: source
 editor_options: 
   chunk_output_type: console
 bibliography: references.bib
+execute:
+  echo: true
+  warning: false
+  message: false
 ---
-
 
 ```{r}
 library(tidyverse)
