@@ -1,7 +1,7 @@
 ---
 title: "Application Exercise 13 - Data wrangling with tidyr"
 format: html
-editor: source
+editor: visual
 editor_options: 
   chunk_output_type: console
 bibliography: references.bib
@@ -98,16 +98,18 @@ The following exercise is taken from @naupaka_zimmerman_2019_3265164.
 
 ```{r}
 
-library(gapminder)
-
 gapminder_wide <- read_csv("https://raw.githubusercontent.com/swcarpentry/r-novice-gapminder/main/data/gapminder_wide.csv")
 
 ```
 
 ```{r}
+
+library(gapminder)
+
 gapminder
 
 gapminder_wide 
+
 glimpse(gapminder_wide)
 
 ```
@@ -121,7 +123,7 @@ gapminder_wide %>%
                names_to = "obstype_year",
                values_to = "obs_value") 
 
-# can we calculate the mean life expectancy per country and year?
+# QUESTION: can we calculate the mean life expectancy per country and year?
 
 # Now obstype_year actually contains 2 pieces of information, the observation 
 # type (pop,lifeExp, or gdpPercap) and the year. We can use the separate() 
@@ -131,8 +133,7 @@ gapminder_long <- gapminder_wide %>%
   pivot_longer(cols = gdpPercap_1952:pop_2007,
                names_to = "obstype_year",
                values_to = "obs_value") %>% 
-  separate(col = obstype_year, into = c("obs_type", "year"), sep = "_") %>% 
-  mutate(year = as.integer(year))
+  separate(col = obstype_year, into = c("obs_type", "year"), sep = "_") 
 
 ```
 
@@ -177,6 +178,7 @@ gapminder_normal <- gapminder_long %>%
 The data for this exercise is taken from: https://github.com/rbtl-fs22/research-project-template-lord-of-the-bins/
 
 ```{r}
+
 waste_data_lord <- read_rds("data/raw_data/waste-characterisation-lord-of-the-bins-tidy.rds")
 erz_bins <- read_csv("data/raw_data/erz.abfallgefaess_p.csv")
 

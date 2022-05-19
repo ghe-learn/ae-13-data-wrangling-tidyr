@@ -1,7 +1,7 @@
 ---
 title: "Application Exercise 13 - Data wrangling with tidyr"
 format: html
-editor: source
+editor: visual
 editor_options: 
   chunk_output_type: console
 bibliography: references.bib
@@ -23,7 +23,7 @@ library(tidyverse)
 
 **Write the code yourself**
 
-1. Use the `read_csv()` function to import the 'msw-generation-and-composition-by-income.csv' and assign it to an object with a name of your choice.
+1. Use the `read_csv()` (**Note**: Watch out for the _ don't use the . as in `read.csv()`) function to import the 'msw-generation-and-composition-by-income.csv' and assign it to an object with a name of your choice.
 
 ```{r}
 
@@ -65,7 +65,7 @@ waste_data_fct <- waste_data %>%
 - send the variable names to a column named "waste_category"
 - send the values of the variables to a column names "percent"
 
-2. Remove all NAs from the `percent` variable
+2. Remove all `NA`s from the `percent` variable
 
 3. Assign the created dataframe to an object with a name of your choice.
 
@@ -143,7 +143,7 @@ waste_data_long_mean %>%
 
 3. Commit your changes.
 
-**Note::** You should have accumulated 4 commits by now. If this was an exam, then you would get your points for these 4 commits (not if you only did one commit).
+**Note::** You should have accumulated 4 commits by now. If this was an exam, then you would get your points for these 4 commits (not if you only did one to three commits).
 
 4. Push all commits to your remote repository (GitHub) and open an issue on the repository to let us know you are done.
 
