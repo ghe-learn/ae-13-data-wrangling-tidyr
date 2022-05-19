@@ -17,14 +17,14 @@ library(tidyverse)
 
 # Part 1: (Atomic) Vectors
 
-Atomic vectors, of which there are six types: logical, integer, double, character, complex, and raw. 
+Atomic vectors, of which there are six types: logical, integer, double, character, complex, and raw.
 
 Integer and double vectors are collectively known as numeric vectors.
 
-- lgl: logical
-- int: integer
-- dbl: double
-- chr: character
+-   lgl: logical
+-   int: integer
+-   dbl: double
+-   chr: character
 
 ```{r}
 
@@ -67,8 +67,7 @@ as.integer(vector_fct)
 
 ```
 
-
-# Part 2: tidyr R Package 
+# Part 2: tidyr R Package
 
 ```{r}
 # Data source: https://github.com/rbtl-fs22/research-project-template-disposa-liz/blob/main/data/raw_data/rbtl_fs22_waste_composition_bellevue.csv
@@ -94,7 +93,7 @@ waste_data_long <- waste_data %>%
 
 ## Example: Gapminder
 
-The following exercise is taken from @naupaka_zimmerman_2019_3265164. 
+The following exercise is taken from @naupaka_zimmerman_2019_3265164.
 
 ```{r}
 
