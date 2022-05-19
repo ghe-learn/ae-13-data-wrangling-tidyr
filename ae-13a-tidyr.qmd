@@ -13,9 +13,7 @@ execute:
 
 ```{r}
 library(tidyverse)
-library(lubridate)
 ```
-
 
 # Part 1: (Atomic) Vectors
 
@@ -41,14 +39,14 @@ glimpse(starwars)
 vector_lgl <- c(TRUE, TRUE, FALSE)
 typeof(vector_lgl)
 
-vector_chr <- c("large", "small", "medium")
-typeof(vector_chr)
+vector_int <- c(1L, 3L, 6L, 6L)
+typeof(vector_int)
 
 vector_dbl <- c(192, 118.5, 162.5)
 typeof(vector_dbl)
 
-vector_int <- c(1L, 3L, 6L, 6L)
-typeof(vector_int)
+vector_chr <- c("large", "small", "medium")
+typeof(vector_chr)
 
 ```
 
@@ -73,9 +71,7 @@ as.integer(vector_fct)
 # Part 2: tidyr R Package 
 
 ```{r}
-
 # Data source: https://github.com/rbtl-fs22/research-project-template-disposa-liz/blob/main/data/raw_data/rbtl_fs22_waste_composition_bellevue.csv
-
 waste_data <- read_csv("data/waste-characterisation-disposa-liz.csv")
 
 ```
@@ -200,6 +196,8 @@ waste_data_lord %>%
 
 ## Example: Band members
 
+This exercise is copied from: https://dplyr.tidyverse.org/reference/mutate-joins.html#ref-examples
+
 ```{r}
 band_members
 band_instruments
@@ -222,3 +220,4 @@ band_members %>%
   full_join(band_instruments2, by = c("name" = "artist"), keep = TRUE)
 ```
 
+# Reference
