@@ -41,3 +41,7 @@ vignettes/*.pdf
 # Mac files
 .DS_Store
 
+# Ignore solutions files
+
+*-solutions.R
+*-solutions.qmd
