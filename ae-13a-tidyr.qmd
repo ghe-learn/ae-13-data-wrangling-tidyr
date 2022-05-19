@@ -211,8 +211,6 @@ gapminder_normal <- gapminder_long %>%
   select(country, continent, year, lifeExp, pop, gdpPercap) %>% 
   arrange(country, year)
 
-all.equal(gapminder, gapminder_normal)
-
 ```
 
 # Part 3: Working with multiple dataframes

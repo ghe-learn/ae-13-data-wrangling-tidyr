@@ -163,8 +163,6 @@ ggplot(data = waste_data_long_mean,
   theme_minimal() +
   theme(panel.grid.minor = element_blank(),
         panel.grid.major.y = element_blank())
-
-ggsave(filename = "figs/fig-01-mean-waste-composition-by-income.png", width = 8, height = 12)
   
 ```
 
