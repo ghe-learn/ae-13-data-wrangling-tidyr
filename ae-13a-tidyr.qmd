@@ -116,7 +116,6 @@ waste_data_lord <- read_rds("data/raw_data/waste-characterisation-lord-of-the-bi
 erz_bins <- read_csv("data/raw_data/erz.abfallgefaess_p.csv")
 ```
 
-
 ```{r}
 
 
