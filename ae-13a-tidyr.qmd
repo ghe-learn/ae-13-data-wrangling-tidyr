@@ -52,7 +52,9 @@ typeof(vector_int)
 
 ```
 
-## Explicit vector coercion
+## Explicit vector coercion & augmented vectors
+
+Vectors can also contain arbitrary additional metadata in the form of attributes. These attributes are used to create augmented vectors which build on additional behaviour. For example, factors are built on top of integer vectors.
 
 ```{r}
 
@@ -61,53 +63,12 @@ typeof(vector_num)
 
 vector_fct <- factor(vector_chr, levels = c("small", "medium", "large"))
 
-```
-
-## Augmented vectors 
-
-Vectors can also contain arbitrary additional metadata in the form of attributes. These attributes are used to create augmented vectors which build on additional behaviour. There are three important types of augmented vector:
-
-- Factors are built on top of integer vectors.
-- Dates and date-times are built on top of numeric vectors.
-- Data frames and tibbles are built on top of lists.
-
-```{r}
-
 typeof(vector_fct)
 attributes(vector_fct)
 as.integer(vector_fct)
 
-vector_date_chr <- "19.05.2022"
-
-typeof(date_chr)
-
-vector_date_date <- lubridate::dmy(vector_date_chr)
-
-typeof(vector_date_date)
-
-as.double(vector_date_date)
-
-attributes(vector_date_date)
-
-lubridate::as_date("1970-01-03") %>% 
-  as.double()
-
-tib_data <- tibble(
-  vector_chr,
-  vector_fct,
-  vector_dbl,
-  vector_date_date,
-) 
-
-typeof(tib_data)
-
-tib_data %>% 
-  mutate(month = month(vector_date_date, 
-                       label = TRUE, 
-                       abbr = FALSE, 
-                       locale = "de_CH.UTF-8"))
-
 ```
+
 
 # Part 2: tidyr R Package 
 
@@ -215,9 +176,32 @@ gapminder_normal <- gapminder_long %>%
 
 # Part 3: Working with multiple dataframes
 
-```{r}
+## Example: Waste characterisation data
 
-band_members 
+The data for this exercise is taken from: https://github.com/rbtl-fs22/research-project-template-lord-of-the-bins/
+
+```{r}
+waste_data_lord <- read_rds("data/raw_data/waste-characterisation-lord-of-the-bins-tidy.rds")
+erz_bins <- read_csv("data/raw_data/erz.abfallgefaess_p.csv")
+
+# STEP 2
+
+erz_bins_fct <- erz_bins %>% 
+  mutate(objid = factor(objid))
+
+# STEP 1
+
+waste_data_lord %>% 
+  left_join(erz_bins)
+
+waste_data_lord %>% 
+  left_join(erz_bins_fct)
+```
+
+## Example: Band members
+
+```{r}
+band_members
 band_instruments
 band_instruments2
 
@@ -236,8 +220,5 @@ band_members %>% full_join(band_instruments2, by = c("name" = "artist"))
 # `keep = TRUE` to keep the join keys from both `x` and `y`
 band_members %>%
   full_join(band_instruments2, by = c("name" = "artist"), keep = TRUE)
-
 ```
-
-# Reference
 
