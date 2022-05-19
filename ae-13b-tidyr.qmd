@@ -27,7 +27,6 @@ library(tidyverse)
 
 ```{r}
 
-waste_data <- read_csv("data/raw_data/msw-generation-and-composition-by-income.csv")
 
 ```
 
@@ -45,13 +44,6 @@ waste_data <- read_csv("data/raw_data/msw-generation-and-composition-by-income.c
 
 ```{r}
 
-levels_income_cat <- c("high income", 
-                       "upper-middle income",
-                       "lower-middle income",
-                       "low income")
-
-waste_data_fct <- waste_data %>% 
-  mutate(income_cat = factor(income_cat, levels = levels_income_cat))
 
 ```
 
@@ -75,11 +67,7 @@ waste_data_fct <- waste_data %>%
 
 ```{r}
 
-waste_data_long <- waste_data_fct %>% 
-  pivot_longer(cols = food_organic_waste:yard_garden_green_waste,
-               names_to = "waste_category",
-               values_to = "percent") %>% 
-  drop_na(percent)
+
 ```
 
 # Part 4: Summarise data
@@ -104,9 +92,6 @@ waste_data_long <- read_rds("data/intermediate_data/msw-generation-and-compositi
 
 ```{r}
 
-waste_data_long_mean <- waste_data_long %>% 
-  group_by(income_cat, waste_category) %>% 
-  summarise(mean_percent = mean(percent)) 
 
 ```
 
@@ -123,13 +108,13 @@ waste_data_long_mean <- waste_data_long %>%
 5.  Commit your changes
 
 ```{r}
-#| eval: true
+#| eval: false
 
 waste_data_long_mean
 
 waste_data_long_mean %>% 
-  pivot_wider(names_from = waste_category,
-              values_from = mean_percent) 
+  ___(____from = waste____,
+              ____from = ___) 
   
 ```
 
@@ -149,20 +134,6 @@ waste_data_long_mean %>%
 
 ```{r}
 
-ggplot(data = waste_data_long_mean, 
-       mapping = aes(x = mean_percent, y = waste_category, fill = income_cat)) +
-  geom_col(position = position_dodge()) +
-  labs(title = "Waste Composition",
-       subtitle = "Mean percentages of nine waste categories displayed by income categories",
-       x = "mean (percent)",
-       y = "waste category",
-       fill = "Income category",
-       caption = "Data from: https://datacatalog.worldbank.org/search/dataset/0039597") +
-  scale_x_continuous(breaks = seq(0, 50, 5)) +
-  scale_fill_brewer(type = "qual", palette = 3) +
-  theme_minimal() +
-  theme(panel.grid.minor = element_blank(),
-        panel.grid.major.y = element_blank())
   
 ```
 
