@@ -13,7 +13,7 @@ execute:
 
 # Part 0: Load Packages
 
-1. What's the `tidyverse` Package? Describe in maximum two sentences below.
+1.  What's the `tidyverse` Package? Describe in maximum two sentences below.
 
 ```{r}
 library(tidyverse)
@@ -23,7 +23,7 @@ library(tidyverse)
 
 **Write the code yourself**
 
-1. Use the `read_csv()` (**Note**: Watch out for the _ don't use the . as in `read.csv()`) function to import the 'msw-generation-and-composition-by-income.csv' and assign it to an object with a name of your choice.
+1.  Use the `read_csv()` (**Note**: Watch out for the \_ don't use the . as in `read.csv()`) function to import the 'msw-generation-and-composition-by-income.csv' and assign it to an object with a name of your choice.
 
 ```{r}
 
@@ -35,13 +35,13 @@ waste_data <- read_csv("data/raw_data/msw-generation-and-composition-by-income.c
 
 **Write the code yourself**
 
-1. Starting with the data object you imported, use the pipe operator and the `mutate()` function to convert the `income_cat` variable from a variable of type character to a variable of type factor. Define the factor levels yourself and store them in a separate object with a name of your choice.
+1.  Starting with the data object you imported, use the pipe operator and the `mutate()` function to convert the `income_cat` variable from a variable of type character to a variable of type factor. Define the factor levels yourself and store them in a separate object with a name of your choice.
 
-2. Assign the created dataframe to an object with a name of your choice.
+2.  Assign the created dataframe to an object with a name of your choice.
 
-3. Render and fix any errors
+3.  Render and fix any errors
 
-4. Commit your changes
+4.  Commit your changes
 
 ```{r}
 
@@ -59,19 +59,19 @@ waste_data_fct <- waste_data %>%
 
 **Write the code yourself**
 
-1. Starting with the data object you created in Part 2, use the `pivot_longer()` function to convert the dataframe from a wide to a long format. Apply the following:
+1.  Starting with the data object you created in Part 2, use the `pivot_longer()` function to convert the dataframe from a wide to a long format. Apply the following:
 
-- bring all columns from `food_organic_waste` to `yard_garden_green_waste` into a long format
-- send the variable names to a column named "waste_category"
-- send the values of the variables to a column names "percent"
+-   bring all columns from `food_organic_waste` to `yard_garden_green_waste` into a long format
+-   send the variable names to a column named "waste_category"
+-   send the values of the variables to a column names "percent"
 
-2. Remove all `NA`s from the `percent` variable
+2.  Remove all `NA`s from the `percent` variable
 
-3. Assign the created dataframe to an object with a name of your choice.
+3.  Assign the created dataframe to an object with a name of your choice.
 
-4. Render and fix any errors
+4.  Render and fix any errors
 
-5. Commit your changes
+5.  Commit your changes
 
 ```{r}
 
@@ -84,9 +84,9 @@ waste_data_long <- waste_data_fct %>%
 
 # Part 4: Summarise data
 
-As in the exercises for week 12, I have stored the data that I would have expected at this point and import it here. 
+As in the exercises for week 12, I have stored the data that I would have expected at this point and import it here.
 
-1. Use R functions in the code-chunk below to check whether you have come to the same result by identifying if the number of of columns and rows are equal between the object from Part 3 and the `waste_data_long` object you just imported.
+1.  Use R functions in the code-chunk below to check whether you have come to the same result by identifying if the number of of columns and rows are equal between the object from Part 3 and the `waste_data_long` object you just imported.
 
 ```{r}
 
@@ -98,9 +98,9 @@ waste_data_long <- read_rds("data/intermediate_data/msw-generation-and-compositi
 
 **Write the code yourself**
 
-1. Starting with `waste_data_long`, group the data by`income_cat` and the waste category variable, then create a summary table containing the mean of percentages  (call this mean_percent) for each group.
+1.  Starting with `waste_data_long`, group the data by`income_cat` and the waste category variable, then create a summary table containing the mean of percentages (call this mean_percent) for each group.
 
-2. Assign the created dataframe to an object with the name `waste_data_long_mean`.
+2.  Assign the created dataframe to an object with the name `waste_data_long_mean`.
 
 ```{r}
 
@@ -112,15 +112,15 @@ waste_data_long_mean <- waste_data_long %>%
 
 **Fill in the blanks**
 
-1. Starting with the `waste_data_long_mean` object, execute the code and observe the output in the Console. Would you publish this table in a report in this format?
+1.  Starting with the `waste_data_long_mean` object, execute the code and observe the output in the Console. Would you publish this table in a report in this format?
 
-2. Starting with the `waste_data_long_mean` object, use the pipe operator to add another line of code which uses the `pivot_wider()` function to bring the data from a long format into a wide format using names for variables from `waste_category` and corresponding values from `mean_percent`
+2.  Starting with the `waste_data_long_mean` object, use the pipe operator to add another line of code which uses the `pivot_wider()` function to bring the data from a long format into a wide format using names for variables from `waste_category` and corresponding values from `mean_percent`
 
-3. Execute the code and observe the output in the Console. Would you publish this table in a report in this format?
+3.  Execute the code and observe the output in the Console. Would you publish this table in a report in this format?
 
-4. Render and fix any errors
+4.  Render and fix any errors
 
-5. Commit your changes
+5.  Commit your changes
 
 ```{r}
 #| eval: true
@@ -135,17 +135,17 @@ waste_data_long_mean %>%
 
 # Part 5: Data visualisation
 
-1. Render and fix any errors
+1.  Render and fix any errors
 
-2. Reproduce the plot that you see as an image below when you render the report and view the output in your Viewer tab in the bottom right window. 
+2.  Reproduce the plot that you see as an image below when you render the report and view the output in your Viewer tab in the bottom right window.
 
-**Hint:** To get those bars displayed next to each other, use the `geom_col()` function with the `position = position_dodge()` argument. The colors don't have to be exactly the same colours, just not the default color scale. As you know, I like my theming minimal. 
+**Hint:** To get those bars displayed next to each other, use the `geom_col()` function with the `position = position_dodge()` argument. The colors don't have to be exactly the same colours, just not the default color scale. As you know, I like my theming minimal.
 
-3. Commit your changes.
+3.  Commit your changes.
 
 **Note::** You should have accumulated 4 commits by now. If this was an exam, then you would get your points for these 4 commits (not if you only did one to three commits).
 
-4. Push all commits to your remote repository (GitHub) and open an issue on the repository to let us know you are done.
+4.  Push all commits to your remote repository (GitHub) and open an issue on the repository to let us know you are done.
 
 ```{r}
 
@@ -165,6 +165,5 @@ ggplot(data = waste_data_long_mean,
         panel.grid.major.y = element_blank())
   
 ```
-
 
 ![](figs/fig-01-mean-waste-composition-by-income.png)
