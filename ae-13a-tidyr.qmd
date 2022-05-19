@@ -12,7 +12,7 @@ execute:
 ---
 
 ```{r}
-library(tidyverse)
+
 ```
 
 # Part 1: (Atomic) Vectors
@@ -28,25 +28,12 @@ Integer and double vectors are collectively known as numeric vectors.
 
 ```{r}
 
-glimpse(starwars)
-
 ```
 
 ## Types of atomic vectors
 
 ```{r}
 
-vector_lgl <- c(TRUE, TRUE, FALSE)
-typeof(vector_lgl)
-
-vector_int <- c(1L, 3L, 6L, 6L)
-typeof(vector_int)
-
-vector_dbl <- c(192, 118.5, 162.5)
-typeof(vector_dbl)
-
-vector_chr <- c("large", "small", "medium")
-typeof(vector_chr)
 
 ```
 
@@ -56,14 +43,6 @@ Vectors can also contain arbitrary additional metadata in the form of attributes
 
 ```{r}
 
-vector_num <- as.numeric(vector_lgl)
-typeof(vector_num) 
-
-vector_fct <- factor(vector_chr, levels = c("small", "medium", "large"))
-
-typeof(vector_fct)
-attributes(vector_fct)
-as.integer(vector_fct)
 
 ```
 
@@ -71,6 +50,7 @@ as.integer(vector_fct)
 
 ```{r}
 # Data source: https://github.com/rbtl-fs22/research-project-template-disposa-liz/blob/main/data/raw_data/rbtl_fs22_waste_composition_bellevue.csv
+
 waste_data <- read_csv("data/waste-characterisation-disposa-liz.csv")
 
 ```
@@ -81,13 +61,6 @@ The data for this exercise is taken from: https://github.com/rbtl-fs22/research-
 
 ```{r}
 
-waste_data_long <- waste_data %>% 
-  select(number, starts_with("weight")) %>% 
-  rename_with(~str_remove(.x, "weight_")) %>% 
-  select(-total) %>% 
-  pivot_longer(cols = !number,
-              names_to = "waste_category",
-              values_to = "weight")
 
 ```
 
@@ -103,13 +76,7 @@ gapminder_wide <- read_csv("https://raw.githubusercontent.com/swcarpentry/r-novi
 
 ```{r}
 
-library(gapminder)
 
-gapminder
-
-gapminder_wide 
-
-glimpse(gapminder_wide)
 
 ```
 
@@ -117,22 +84,7 @@ glimpse(gapminder_wide)
 
 ```{r}
 
-gapminder_wide %>% 
-  pivot_longer(cols = gdpPercap_1952:pop_2007,
-               names_to = "obstype_year",
-               values_to = "obs_value") 
 
-# QUESTION: can we calculate the mean life expectancy per country and year?
-
-# Now obstype_year actually contains 2 pieces of information, the observation 
-# type (pop,lifeExp, or gdpPercap) and the year. We can use the separate() 
-# function to split the character strings into multiple variables
-
-gapminder_long <- gapminder_wide %>% 
-  pivot_longer(cols = gdpPercap_1952:pop_2007,
-               names_to = "obstype_year",
-               values_to = "obs_value") %>% 
-  separate(col = obstype_year, into = c("obs_type", "year"), sep = "_") 
 
 ```
 
@@ -142,18 +94,6 @@ Using `gapminder_long`, calculate the mean life expectancy, population, and gdpP
 
 ```{r}
 
-gapminder_long %>% 
-  group_by(continent, obs_type) %>% 
-  summarise(means = mean(obs_value)) 
-
-# Want a readable table? Back to wide
-
-gapminder_long %>% 
-  group_by(continent, obs_type) %>% 
-  summarise(means = mean(obs_value)) %>% 
-  pivot_wider(names_from = obs_type,
-              values_from = means) %>% 
-  knitr::kable(digits = 1)
 
 
 ```
@@ -162,11 +102,6 @@ gapminder_long %>%
 
 ```{r}
 
-gapminder_normal <- gapminder_long %>% 
-  pivot_wider(names_from = obs_type,
-              values_from = obs_value) %>% 
-  select(country, continent, year, lifeExp, pop, gdpPercap) %>% 
-  arrange(country, year)
 
 ```
 
@@ -177,22 +112,14 @@ gapminder_normal <- gapminder_long %>%
 The data for this exercise is taken from: https://github.com/rbtl-fs22/research-project-template-lord-of-the-bins/
 
 ```{r}
-
 waste_data_lord <- read_rds("data/raw_data/waste-characterisation-lord-of-the-bins-tidy.rds")
 erz_bins <- read_csv("data/raw_data/erz.abfallgefaess_p.csv")
+```
 
-# STEP 2
 
-erz_bins_fct <- erz_bins %>% 
-  mutate(objid = factor(objid))
+```{r}
 
-# STEP 1
 
-waste_data_lord %>% 
-  left_join(erz_bins)
-
-waste_data_lord %>% 
-  left_join(erz_bins_fct)
 ```
 
 ## Example: Band members
@@ -200,25 +127,8 @@ waste_data_lord %>%
 This exercise is copied from: https://dplyr.tidyverse.org/reference/mutate-joins.html#ref-examples
 
 ```{r}
-band_members
-band_instruments
-band_instruments2
 
-band_members %>% inner_join(band_instruments)
-band_members %>% left_join(band_instruments)
-band_members %>% right_join(band_instruments)
-band_members %>% full_join(band_instruments)
 
-# To suppress the message about joining variables, supply `by`
-band_members %>% inner_join(band_instruments, by = "name")
-# This is good practice in production code
-
-# Use a named `by` if the join variables have different names
-band_members %>% full_join(band_instruments2, by = c("name" = "artist"))
-# By default, the join keys from `x` and `y` are coalesced in the output; use
-# `keep = TRUE` to keep the join keys from both `x` and `y`
-band_members %>%
-  full_join(band_instruments2, by = c("name" = "artist"), keep = TRUE)
 ```
 
 # Reference
